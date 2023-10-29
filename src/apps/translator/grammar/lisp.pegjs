@@ -242,7 +242,7 @@ CH_SHARPSIGN   = "#"
 CH_DOLLAR      = "$"
 CH_BACKSLASH   = "\\"
 CH_SHARPSIGN_OTHER = [+-./AaBbCc#'*:Oo=PpRrSsXx] 
-CH_SYMBOL          = [-+*/\\<>!@%^&=.a-zA-Z0-9_] 
+CH_SYMBOL          = [-+*/\\<>!@%^&=.~a-zA-Z0-9_] // [~] is used at uLisp
   / "?" // "?" - for Mary dialect: https://github.com/andybelltree/Mary/blob/master/lisp/stdlib.lisp
   / CH_COLON // "::" - Used by SBCL to separate classes and methods
   / '|' // Mary dialect - tic-tac-toe.lisp

@@ -7,7 +7,7 @@ import {
   compile_ast2jl_str_json,
   compile_ast2jl_str_ts,
 } from './lib/ast2jl';
-import {grammarPathname} from './config';
+import {lispGrammarPathname} from './config';
 
 function print(name: string, source: string) {
   console.log(name + ':');
@@ -29,7 +29,7 @@ async function run() {
 
   const parsed_ast = await parseSourceWithGrammarFile(
     lispSource,
-    grammarPathname
+    lispGrammarPathname
   );
 
   // Compile AST to JL/JSON and save to file

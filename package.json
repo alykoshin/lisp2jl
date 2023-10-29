@@ -4,12 +4,22 @@
   "description": "lisp2jl - LISP to JSON-LISP Translator",
   "type": "commonjs",
   "main": "dist/index.js",
-  "bin": "dist/cli.js",
+  "bin": {
+    "cl2jl": "./translator/cl2jl.js",
+    "download_lisp_examples": "download_lisp_examples.js"
+  },
+  "types": [
+    "./dist/index.d.ts"
+  ],
+  "files": [
+    "dist"
+  ],
   "typings": "dist/cli.d.ts",
   "engines": {
     "node": ">=10.0.0"
   },
   "scripts": {
+    "build": "tsc",
     "demo": "./node_modules/.bin/ts-node ./src/apps/translator/demo.ts",
     "download": "./node_modules/.bin/ts-node ./src/apps/translator-downloader/download_lisp_examples.ts",
     "translate": "./node_modules/.bin/ts-node ./src/apps/translator/cl2jl.ts"

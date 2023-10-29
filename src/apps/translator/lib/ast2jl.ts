@@ -1,14 +1,4 @@
 /** @format */
-// import {List} from '../../runner/lib/types';
-// import {replace_extname} from '../../../lib/fileUtils/fileUtils';
-// import {
-// readJsonFile,
-// writeJsonFile,
-// } from '../../../lib/fileUtils/read-write/jsonFileUtils';
-// import {
-// readTextFile,
-// writeTextFile,
-// } from '../../../lib/fileUtils/read-write/textFileUtils';
 
 const astNodeType = [
   'COMMENT',
@@ -151,7 +141,8 @@ export function compile_ast2jl_recurse(
         if (state.at_eol) acc += INDENT;
         state.at_eol = false;
         if (target === 'js' || target === 'ts' || target === 'json5') {
-          acc += `/* ${s} */ \n`;
+          // acc += `/* ${s} */ \n`;
+          acc += `/* ${s} */ `;
         } else if (target === 'json') {
           acc += `[ ";", "${curr.value}" ],`;
         }

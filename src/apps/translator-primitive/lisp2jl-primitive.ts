@@ -3,8 +3,8 @@
 import {cat} from 'shelljs';
 import json5 from 'json5';
 
-import {Logger} from '../../lib/log';
-import {Parameter} from '../runner/lib/types';
+import {Logger} from 'tools-runner/src/lib/log';
+import {Parameter} from 'tools-runner/src/apps/runner/lib/types';
 
 export function parse_sbcl_bool(
   lisp_bool: string,

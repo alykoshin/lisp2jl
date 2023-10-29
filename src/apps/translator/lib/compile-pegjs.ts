@@ -166,7 +166,7 @@ export async function compileSourceFileWithGrammarFile(
 }
 
 export async function compileFileList(
-  compileSourceFileWithGrammarFile: Function,
+  compileSourceFileWithGrammarFileFn: Function,
   base_path: string,
   sources: string[],
   // grammarRelname: string
@@ -177,7 +177,7 @@ export async function compileFileList(
   const promises = sources.map(async (s, i) => {
     try {
       console.log(`[${i}] ${s}`);
-      const res = await compileSourceFileWithGrammarFile(
+      const res = await compileSourceFileWithGrammarFileFn(
         base_path,
         s,
         // grammarPathname
@@ -189,26 +189,48 @@ export async function compileFileList(
       throw new Error(`Error translating file "${s}"`, {cause: e1});
     }
   });
-  await Promise.all(promises);
+  return await Promise.all(promises);
+}
+
+export async function getDir(base_path: string, extnames: string[]) {
+  return (await fs.readdir(base_path)).filter((s) =>
+    extnames.some((e) => s.endsWith(e))
+  );
+}
+
+const PEGJS_EXT = ['.pegjs'];
+const LISP_EXT = ['.lisp', '.lsp'];
+
+export async function compilePegjsDir(base_path: string) {
+  console.log(`Compiling [${PEGJS_EXT.join(',')}] grammars...`);
+  const grammars = await getDir(base_path, PEGJS_EXT);
+  const results = await compileFileList(
+    compileGrammarFile,
+    base_path,
+    grammars
+  );
+  console.log(`Compiled ${results.length} [${PEGJS_EXT.join(',')}] files`);
+}
+
+export async function translateLispDir(
+  base_path: string,
+  grammarPathname: string
+) {
+  console.log(`Translating [${LISP_EXT.join(',')}] fIles...`);
+  const sources = await getDir(base_path, LISP_EXT);
+  const results = await compileFileList(
+    compileSourceFileWithGrammarFile,
+    base_path,
+    sources,
+    grammarPathname
+  );
+  console.log(`Translated ${results.length} [${LISP_EXT.join(',')}] files`);
 }
 
 export async function compileFileDir(
   base_path: string,
   grammarPathname: string
 ) {
-  console.log('Compiling grammars');
-  const grammars = (await fs.readdir(base_path)).filter((s) =>
-    s.endsWith('.pegjs')
-  );
-  await compileFileList(compileGrammarFile, base_path, grammars);
-
-  const sources = (await fs.readdir(base_path)).filter((s) =>
-    s.endsWith('.lisp')
-  );
-  await compileFileList(
-    compileSourceFileWithGrammarFile,
-    base_path,
-    sources,
-    grammarPathname
-  );
+  await compilePegjsDir(base_path);
+  await translateLispDir(base_path, grammarPathname);
 }

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "declaration": false,
+    "declaration": true,
     "lib": ["es2022"],
     "module": "commonjs",
     //    "module": "nod",
@@ -16,8 +16,10 @@
     "target": "esnext",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "plugins": []
+    "plugins": [],
+    "rootDir": "./src"
   },
+  "include": ["./src/"],
   "exclude": ["dist", "example", "node_modules", "_archive"],
   "ts-node": {
     "esm": true,
